@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+#main-container {
+  margin-top: 50px;
+  display: flex;
+  width: 800px;
+  height: 800px;
+  background-color: lightgray;
+  align-items: center;
+  justify-content: center;
+}
+#welcome-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#welcome-text {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-size: 60px;
+  margin: 20px;
+}
+
+#welcome-button {
+  height: 50px;
+  width: 160px;
+  border-radius: 6px;
+  border-color: rgb(124, 204, 204);
+  background-color: rgb(127, 216, 67);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border: solid;
+  border-width: 2px;
+}
+
+#welcome-button:hover {
+  opacity: 0.75;
+}
+
+#welcome-button:active {
+  opacity: 0.65;
+}
