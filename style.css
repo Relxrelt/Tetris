@@ -6,9 +6,9 @@ body {
 #main-container {
   margin-top: 50px;
   display: flex;
-  width: 800px;
-  height: 800px;
-  background-color: lightgray;
+  width: 600px;
+  height: 850px;
+  background-color: rgb(76, 226, 143);
   align-items: center;
   justify-content: center;
 }
@@ -17,6 +17,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: absolute;
 }
 
 #welcome-text {
@@ -41,6 +42,27 @@ body {
   border-width: 2px;
 }
 
+#grid-system {
+  margin-top: 15px;
+  position: absolute;
+  display: none;
+  grid-template-columns: repeat(10, 36px);
+  grid-template-rows: repeat(20, 36px);
+  gap: 3px;
+}
+
+.tile {
+  background-color: rgb(34, 32, 32);
+  border: solid;
+  border-width: 1px;
+  border-color: white;
+}
+.tetromino {
+  background-color: red;
+  border: solid;
+  border-width: 1px;
+  border-color: white;
+}
 #welcome-button:hover {
   opacity: 0.75;
 }
