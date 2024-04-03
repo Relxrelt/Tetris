@@ -23,7 +23,69 @@ const sShape = new Tetromino(
   2,
   true
 );
-let currentShape = sShape;
+const lShape = new Tetromino(
+  [
+    [0, 4],
+    [1, 4],
+    [2, 4],
+    [2, 5],
+  ],
+  2,
+  true
+);
+const oShape = new Tetromino(
+  [
+    [0, 4],
+    [0, 5],
+    [1, 4],
+    [1, 5],
+  ],
+  2,
+  true
+);
+const iShape = new Tetromino(
+  [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [0, 6],
+  ],
+  2,
+  true
+);
+const jShape = new Tetromino(
+  [
+    [0, 4],
+    [1, 4],
+    [2, 4],
+    [2, 3],
+  ],
+  2,
+  true
+);
+const tShape = new Tetromino(
+  [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [1, 4],
+  ],
+  2,
+  true
+);
+const zShape = new Tetromino(
+  [
+    [0, 5],
+    [1, 5],
+    [1, 4],
+    [2, 4],
+  ],
+  2,
+  true
+);
+
+const shapesArray = [sShape, lShape, zShape, iShape, tShape, oShape, jShape];
+let currentShape = tShape;
 
 function generateNewLocation(tetromino) {
   for (let i = 0; i < tetromino.position.length; i++) {
@@ -34,6 +96,26 @@ function generateNewLocation(tetromino) {
 }
 
 function moveTetrominoDown(tetromino) {
+  for (let i = 0; i < tetromino.position.length; i++) {
+    if (tetromino.position[i][0] === 19) {
+      currentShape = shapesArray[getRandomInt(6)];
+      generateNewLocation(currentShape);
+      return;
+    }
+    if (
+      document.getElementById(
+        `${tetromino.position[i][0] + 1}:${tetromino.position[i][1]}`
+      ).className === "tetromino" &&
+      !arrayIncludesSubarray(tetromino.position, [
+        tetromino.position[i][0] + 1,
+        tetromino.position[i][1],
+      ])
+    ) {
+      currentShape = shapesArray[getRandomInt(6)];
+      generateNewLocation(currentShape);
+      return;
+    }
+  }
   for (let i = 0; i < tetromino.position.length; i++) {
     document.getElementById(
       `${tetromino.position[i][0]}:${tetromino.position[i][1]}`
@@ -81,10 +163,6 @@ function startButton() {
   startGame();
 }
 
-document
-  .querySelector("#welcome-button")
-  .addEventListener("click", startButton);
-
 function startGame() {
   gameState = true;
   generateNewLocation(currentShape);
@@ -92,6 +170,7 @@ function startGame() {
 }
 
 function gameLoop() {
+  tetrominoMovedSideways = false;
   if (!gameState) {
     return;
   }
@@ -99,5 +178,51 @@ function gameLoop() {
   setTimeout(() => {
     moveTetrominoDown(currentShape);
     gameLoop();
-  }, 750);
+  }, 150);
+}
+function moveTetrominoSideWays(tetromino, direction) {
+  for (let i = 0; i < tetromino.position.length; i++) {
+    if (
+      tetromino.position[i][1] + direction < 0 ||
+      tetromino.position[i][1] + direction > 9
+    ) {
+      return;
+    }
+  }
+  for (let i = 0; i < tetromino.position.length; i++) {
+    document.getElementById(
+      `${tetromino.position[i][0]}:${tetromino.position[i][1]}`
+    ).className = "tile";
+  }
+  for (let i = 0; i < tetromino.position.length; i++) {
+    tetromino.position[i][1] += direction;
+  }
+  generateNewLocation(tetromino);
+}
+
+function arrayIncludesSubarray(arr, subarr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][0] === subarr[0] && arr[i][1] === subarr[1]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+document.addEventListener("keydown", (event) => {
+  let name = event.key;
+
+  if (event.key === "ArrowLeft") {
+    moveTetrominoSideWays(currentShape, -1);
+  } else if (event.key === "ArrowRight") {
+    moveTetrominoSideWays(currentShape, 1);
+  }
+});
+
+document
+  .querySelector("#welcome-button")
+  .addEventListener("click", startButton);
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }
